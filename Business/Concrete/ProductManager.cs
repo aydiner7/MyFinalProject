@@ -33,8 +33,12 @@ namespace Business.Concrete
         }
 
         public IDataResult<List<Product>> GetAll()
-        {            
+        {
             //Erişim izin kodları... Arından erişim izni.
+            if (DateTime.Now.Hour == 11)
+            {
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            }
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductListed);
         }
 
@@ -55,7 +59,7 @@ namespace Business.Concrete
 
         public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
-            if (DateTime.Now.Hour == 1)
+            if (DateTime.Now.Hour == 0)
             {
                 return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
             }
